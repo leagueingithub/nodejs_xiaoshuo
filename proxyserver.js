@@ -18,7 +18,6 @@ function getproxylist() {
 			tempbrowser = await puppeteer.launch({
 			headless:true,
 			args: [
-			'--proxy-server=socks5://127.0.0.1:12580'
 			]
 			}).catch(ex => {
 				if (i-1 > 0) {
@@ -214,34 +213,34 @@ async function getProxyBrowser(checkurl, rtc = 3) {
 	})
 }
 
-async function test() {
+// async function test() {
 
-	var proxylist;
-	for (var i = 0; i < MAX_RT; i++) {
+// 	var proxylist;
+// 	for (var i = 0; i < MAX_RT; i++) {
 
-		if (proxylist) {
-			break;
-		}
+// 		if (proxylist) {
+// 			break;
+// 		}
 
-		console.log('start get proxylist from web...');
-		proxylist = await getproxylist().catch(ex=> {
-			if (i+1<MAX_RT) {
-				console.log('fail to get proxylist. now retry...');
-			} else {
-				console.log('fail to get proxylist. end!!!');
-			}
-		});
-	}
+// 		console.log('start get proxylist from web...');
+// 		proxylist = await getproxylist().catch(ex=> {
+// 			if (i+1<MAX_RT) {
+// 				console.log('fail to get proxylist. now retry...');
+// 			} else {
+// 				console.log('fail to get proxylist. end!!!');
+// 			}
+// 		});
+// 	}
 			
 	
-	// var ip = proxylist[0].ip;
-	// console.log(ip);
-	if (!proxylist) {
-		console.log('fail to get proxylist!!!');
-		return;
-	}
-	console.log(proxylist);
-}
+// 	// var ip = proxylist[0].ip;
+// 	// console.log(ip);
+// 	if (!proxylist) {
+// 		console.log('fail to get proxylist!!!');
+// 		return;
+// 	}
+// 	console.log(proxylist);
+// }
 
 // async function test() {
 
@@ -262,6 +261,6 @@ async function test() {
 // 	}
 // }
 
-test();
+// test();
 
 module.exports.getProxyList = getproxylist;
