@@ -18,6 +18,7 @@ function getproxylist() {
 			tempbrowser = await puppeteer.launch({
 			headless:true,
 			args: [
+			//'--proxy-server=socks5://127.0.0.1:12580'
 			]
 			}).catch(ex => {
 				if (i-1 > 0) {
@@ -52,7 +53,7 @@ function getproxylist() {
 			}
 			
 			console.log('start to goto page...');
-			respond = await page.goto("https://www.socks-proxy.net/", {
+			respond = await page.goto("http://31f.cn/socks-proxy/", {
 				'waitUntil':'domcontentloaded',
 				'timeout':120000
 			}).catch(ex=>{
@@ -70,7 +71,7 @@ function getproxylist() {
 		}
 
 		console.log('start to find element in page...');
-		var layoutVisible = await page.waitForSelector('#list .container table tbody').catch(ex=>{
+		var layoutVisible = await page.waitForSelector('body > div > table.table.table-striped > tbody').catch(ex=>{
 			console.log("oh....no...!!!, i can not see anything!!!");
 		});
 		if (!layoutVisible) {
@@ -111,7 +112,7 @@ function getproxylist() {
 			//let element2 = list2[0];
 			//let element3 = list3[0];
 
-			let list = document.querySelectorAll('#list .container table tbody tr');
+			let list = document.querySelectorAll('body > div > table.table.table-striped > tbody > tr ~ tr');
 			if (!list) {
 				return;
 			}
@@ -121,10 +122,10 @@ function getproxylist() {
 				var row = list[i];
 				var cells = row.cells;
 
-				var ip = cells[0].textContent;
-				var port = cells[1].textContent;
-				var code = cells[2].textContent;
-				var version = cells[4].textContent;
+				var ip = cells[1].textContent;
+				var port = cells[2].textContent;
+				var code = cells[4].textContent;
+				var version = cells[6].textContent;
 
 				var proxyServerModel = {
 					'ip' : ip,
@@ -213,34 +214,34 @@ async function getProxyBrowser(checkurl, rtc = 3) {
 	})
 }
 
-// async function test() {
+async function test() {
 
-// 	var proxylist;
-// 	for (var i = 0; i < MAX_RT; i++) {
+	var proxylist;
+	for (var i = 0; i < MAX_RT; i++) {
 
-// 		if (proxylist) {
-// 			break;
-// 		}
+		if (proxylist) {
+			break;
+		}
 
-// 		console.log('start get proxylist from web...');
-// 		proxylist = await getproxylist().catch(ex=> {
-// 			if (i+1<MAX_RT) {
-// 				console.log('fail to get proxylist. now retry...');
-// 			} else {
-// 				console.log('fail to get proxylist. end!!!');
-// 			}
-// 		});
-// 	}
+		console.log('start get proxylist from web...');
+		proxylist = await getproxylist().catch(ex=> {
+			if (i+1<MAX_RT) {
+				console.log('fail to get proxylist. now retry...');
+			} else {
+				console.log('fail to get proxylist. end!!!');
+			}
+		});
+	}
 			
 	
-// 	// var ip = proxylist[0].ip;
-// 	// console.log(ip);
-// 	if (!proxylist) {
-// 		console.log('fail to get proxylist!!!');
-// 		return;
-// 	}
-// 	console.log(proxylist);
-// }
+	// var ip = proxylist[0].ip;
+	// console.log(ip);
+	if (!proxylist) {
+		console.log('fail to get proxylist!!!');
+		return;
+	}
+	console.log(proxylist);
+}
 
 // async function test() {
 
